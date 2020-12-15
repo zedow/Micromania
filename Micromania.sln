@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Micromania", "Micromania\Micromania.csproj", "{2DD4E6A1-B5C3-4D3A-88A6-E471B3018060}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Micromania.tests", "Micromania.tests\Micromania.tests.csproj", "{0DA26AD7-FD81-458F-8691-34CD73403514}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2DD4E6A1-B5C3-4D3A-88A6-E471B3018060}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DD4E6A1-B5C3-4D3A-88A6-E471B3018060}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DD4E6A1-B5C3-4D3A-88A6-E471B3018060}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DD4E6A1-B5C3-4D3A-88A6-E471B3018060}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DA26AD7-FD81-458F-8691-34CD73403514}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DA26AD7-FD81-458F-8691-34CD73403514}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DA26AD7-FD81-458F-8691-34CD73403514}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DA26AD7-FD81-458F-8691-34CD73403514}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AAD6A47A-886F-4B9C-9795-2B0D12094BC7}
+	EndGlobalSection
+EndGlobal
