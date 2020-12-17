@@ -1,15 +1,73 @@
-Nous allons vous présenter Lifin Bde, notre interface visant à devenir la référence en matière de communication et d'échange atour des bureaux des élèves qui seront appelés BDE
-pour la suite de cette présentation
+# This is a simple gitlab continuous integration example project (compatible with the shared runner provided on gitlab.com)
+# using the official debian linux based dotnet docker image to build a .NET Core project.
+#
+# MyProject.sln
+#   MyProject\
+#      MyProject.csproj (console application)
+#   MyProject.Test\
+#      MyProject.Test.csproj (test library)
+#
+# Please find the full example project here:
+# https://gitlab.com/tobiaskoch/gitlab-ci-example-dotnetcore
+
+# see https://hub.docker.com/r/microsoft/dotnet/
+image: mcr.microsoft.com/dotnet/core/sdk:3.1
 
 
-Produit minimum viable
 
-Pour le prototype fonctionnel, nous avons pris la décision de développer une progressive web app, et non une application mobile
-car celle-ci est nécessitait moins de développement, ce qui correspondait davantage à notre objectif : produire un MVP dans les temps.
+stages:
+  - test
+  - deploy
 
-Ce prototype rassemble les fonctionnalités minimales requises, connexion, création d'un BDE, affichage des BDE existant, ou encore affichage des événements à venir pour les BDES suivis 
-par l'utilisateur. On peut aussi y retrouver notre système de Hype, qui n'est d'autre qu'un ratio permettant de constater l'engouement autour d'un événement
+release:
+  stage: deploy
+  only:
+    - main
+  artifacts:
+    paths:
+      - publish/
+  script:
+    # The output path is relative to the position of the csproj-file
+    - dotnet publish
+    
+debug:
+  before_script:
+   - 'echo | dotnet --version' # must be v 2.2.300 or later for reporter tool to work
+   - dotnet tool install dotnet-reportgenerator-globaltool --tool-path tools
+  stage: test
+  script:
+    - dotnet test
+  coverage: /Line coverage[\s\S].+%/
+  artifacts:
+    paths:
+      - Reports_Coverage/
+    reports:
+      junit:
+        - '*.Test/TestResults/TestResults.xml'
 
-L'environement de développement est composé de divers outils et frameworks google, les utilisés nous ont permi de gagner du temps et de l'effcicité sur le développement
-notamment sur la connexion utilisateur qui est entièrement gérée par firebase, un outil puissant de Google.
+# takes upwards of 10 minutes, make manual
+code_quality:
+  stage: test
+  when: manual
+  image: docker:latest
+  variables:
+    DOCKER_DRIVER: overlay
+  services:
+    - docker:dind
+  script:
+    - docker pull codeclimate/codeclimate
+    - docker run 
+       --env CODECLIMATE_DEBUG=1 
+       --env CODECLIMATE_CODE="$PWD" 
+       --volume "$PWD":/code 
+       --volume /var/run/docker.sock:/var/run/docker.sock 
+       --volume /tmp/cc:/tmp/cc 
+       codeclimate/codeclimate analyze -f html > report.html
+    #- cat report.html
 
+  artifacts:
+    paths: [report.html]
+  dependencies: []
+  except:
+    variables:
+      - $CODE_QUALITY_DISABLED
