@@ -20,18 +20,23 @@ namespace Micromania.Controllers
         private readonly IMapper _mapper;
         private const string Path = "./database.json";
         private List<Videogame> Videogames;
+        private bool IsTest;
 
-        public GamesController(IMapper mapper)
+        public GamesController(IMapper mapper,bool isTest = false)
         {
             _mapper = mapper;
             string readText = System.IO.File.ReadAllText(Path);
             Videogames = JsonConvert.DeserializeObject<IEnumerable<Videogame>>(readText).ToList();
+            this.IsTest = isTest;
         }
 
         public void SaveChanges()
         {
-            System.IO.File.Delete(Path);
-            System.IO.File.AppendAllText(Path, JsonConvert.SerializeObject(Videogames));
+            if (!IsTest)
+            {
+                System.IO.File.Delete(Path);
+                System.IO.File.AppendAllText(Path, JsonConvert.SerializeObject(Videogames));
+            }
         }
 
         private void OverwriteFile(IEnumerable<Videogame> collection)
@@ -43,7 +48,8 @@ namespace Micromania.Controllers
         /// <summary>
         /// Retourne la liste complète des jeux-vidéos 
         /// </summary>
-        /// <returns>Un code 200 contenant la liste</returns>
+        /// <returns>La liste des jeux-vidéo</returns>
+        /// <response code="200"></response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<IEnumerable<VideogameReadDto>> GetGames()
@@ -56,17 +62,20 @@ namespace Micromania.Controllers
         /// </summary>
         /// <param name="game"></param>
         /// <returns>
-        /// Un code 201 contenant l'objet créé
+        /// Le jeu-vidéo nouvellement créé et son id attribué par l'api
         /// </returns>
+        /// <response code="400">Si le jeu-vidéo envoyé en paramètre est un obet null ou incomplet</response>
+        /// <response code="201">Si le jeu-vidéo a été créé</response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<VideogameReadDto> AddVideogame(VideogameCreateDto game)
         {
-            if (game == null)
-            {
-                throw new ArgumentNullException();
-            }
             var newGame = _mapper.Map<Videogame>(game);
+            if (newGame == null)
+            {
+                return BadRequest();
+            }
             Videogames.Add(newGame);
             SaveChanges();
             return StatusCode(201,_mapper.Map<VideogameReadDto>(newGame));

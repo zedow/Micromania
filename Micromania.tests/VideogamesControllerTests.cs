@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using Micromania.Controllers;
 using Micromania.Dtos;
@@ -22,13 +23,14 @@ namespace Micromania.tests
                 cfg.AddProfile(new Profiles());
             });
             _mapper = new Mapper(_configuration);
-            this._gamesController = new GamesController(_mapper);
+            this._gamesController = new GamesController(_mapper,true);
         }
 
         [TestMethod]
         public void AddGame_Code404_WhenParamIsNull()
         {
-            Assert.ThrowsException<ArgumentNullException>((() => this._gamesController.AddVideogame(null)));
+            var result = this._gamesController.AddVideogame(null);
+            Assert.IsInstanceOfType(result.Result,typeof(Microsoft.AspNetCore.Mvc.BadRequestResult));
         }
 
         [TestMethod]
@@ -42,7 +44,14 @@ namespace Micromania.tests
         public void GetGames_Code200()
         {
             var result = this._gamesController.GetGames();
-            Assert.IsInstanceOfType(result,typeof(ActionResult<IEnumerable<VideogameReadDto>>));
+            Assert.IsInstanceOfType(result.Result,typeof(Microsoft.AspNetCore.Mvc.OkObjectResult));
+        }
+
+        [TestMethod]
+        public void GetGames_Code200_DataTypeIsOk()
+        {
+            var result = this._gamesController.GetGames();
+            Assert.IsInstanceOfType(result, typeof(ActionResult<IEnumerable<VideogameReadDto>>));
         }
 
         [TestMethod]
