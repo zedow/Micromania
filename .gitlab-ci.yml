@@ -1,0 +1,15 @@
+Nous allons vous présenter Lifin Bde, notre interface visant à devenir la référence en matière de communication et d'échange atour des bureaux des élèves qui seront appelés BDE
+pour la suite de cette présentation
+
+
+Produit minimum viable
+
+Pour le prototype fonctionnel, nous avons pris la décision de développer une progressive web app, et non une application mobile
+car celle-ci est nécessitait moins de développement, ce qui correspondait davantage à notre objectif : produire un MVP dans les temps.
+
+Ce prototype rassemble les fonctionnalités minimales requises, connexion, création d'un BDE, affichage des BDE existant, ou encore affichage des événements à venir pour les BDES suivis 
+par l'utilisateur. On peut aussi y retrouver notre système de Hype, qui n'est d'autre qu'un ratio permettant de constater l'engouement autour d'un événement
+
+L'environement de développement est composé de divers outils et frameworks google, les utilisés nous ont permi de gagner du temps et de l'effcicité sur le développement
+notamment sur la connexion utilisateur qui est entièrement gérée par firebase, un outil puissant de Google.
+

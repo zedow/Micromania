@@ -46,7 +46,7 @@ namespace Micromania.Controllers
         /// <returns>Un code 200 contenant la liste</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<IEnumerable<VideogameReadDto>> GetVideogames()
+        public ActionResult<IEnumerable<VideogameReadDto>> GetGames()
         {
             return Ok(_mapper.Map<IEnumerable<VideogameReadDto>>(Videogames));
         }
@@ -75,9 +75,10 @@ namespace Micromania.Controllers
         /// <summary>
         /// Retourne un jeu-vidéo selon l'id en paramètre
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns resultCode="404">Un code 404 si l'objet n'existe pas</returns>
-        /// <returns resultCode="200">Un code 200 contenant l'objet si il existe</returns>
+        /// <param name="id">L'id du jeu-vidéo à retourner</param>
+        /// <returns>Le jeu vidéo dont l'id correspond au paramètre</returns>
+        /// <response code="404">Si l'id ne correspond à aucun jeu-vidéo</response>
+        /// <response code="200">Si l'id correspond à un jeu-vidéo</response>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -94,8 +95,10 @@ namespace Micromania.Controllers
         /// <summary>
         /// Mettre à jour un jeu-vidéo
         /// </summary>
-        /// <returns>Un code 404 si l'objet n'existe pas</returns>
-        /// <returns>Un code 204 si l'objet a été mis à jour</returns>
+        /// <param name="id">L'id du jeu-vidéo à retourner</param>
+        /// <returns>Aucun contenu</returns>
+        /// <response code="404">Si l'id ne correspond à aucun jeu-vidéo</response>
+        /// <response code="204">Si le jeu-vidéo a été mis à jour</response>
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -114,8 +117,10 @@ namespace Micromania.Controllers
         /// <summary>
         /// Supprime un jeu vidéo
         /// </summary>
-        /// <returns>Un code 404 si l'objet n'existe pas</returns>
-        /// <returns>Un code 204 si l'objet a été supprimé</returns>
+        /// <param name="id">L'id du jeu-vidéo à retourner</param>
+        /// <returns>Aucun contenu</returns>
+        /// <response code="404">Si l'id ne correspond à aucun jeu-vidéo</response>
+        /// <response code="204">Si le jeu-vidéo a été supprimé</response>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
